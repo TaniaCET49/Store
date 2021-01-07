@@ -20,7 +20,12 @@ namespace Store_Web.Helpers
 
         Task LogoutAsync();
 
+        Task<IdentityResult> ChangePasswordAsync(User user);
 
 
+        Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
     }
+
+
 }
+
