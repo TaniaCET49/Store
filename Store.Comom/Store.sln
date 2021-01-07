@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{0383FB52-5C4C-49A9-9E47-0A991E1DC2EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FronEnd", "FronEnd", "{C8A5532F-949C-4A19-B2EC-B1F4E5F55A9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Web", "Store.Web\Store.Web.csproj", "{CCCA89D3-FC9A-4325-9CD4-D40E481303F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Classic", "Classic", "{3987ACBF-25ED-41AF-AA53-4C7A9966D820}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forms", "Forms", "{91EEBADA-0579-41F5-841C-4CED0226BB07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCCA89D3-FC9A-4325-9CD4-D40E481303F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCCA89D3-FC9A-4325-9CD4-D40E481303F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCCA89D3-FC9A-4325-9CD4-D40E481303F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCCA89D3-FC9A-4325-9CD4-D40E481303F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CCCA89D3-FC9A-4325-9CD4-D40E481303F4} = {0383FB52-5C4C-49A9-9E47-0A991E1DC2EC}
+		{3987ACBF-25ED-41AF-AA53-4C7A9966D820} = {C8A5532F-949C-4A19-B2EC-B1F4E5F55A9B}
+		{91EEBADA-0579-41F5-841C-4CED0226BB07} = {C8A5532F-949C-4A19-B2EC-B1F4E5F55A9B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8B754FB-5559-4D28-9409-05C918BA9BDA}
+	EndGlobalSection
+EndGlobal
