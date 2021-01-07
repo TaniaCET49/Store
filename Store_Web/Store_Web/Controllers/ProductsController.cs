@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Store_Web.Data;
 using Store_Web.Data.Enteties;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Store_Web.Controllers
 {
+    
     public class ProductsController : Controller
     {
         private readonly IProductRepository productrepository;
@@ -23,10 +25,9 @@ namespace Store_Web.Controllers
             this.userHelper = userHelper;
         }
 
-        // GET: Products
         public IActionResult Index()
         {
-            return View(this.productrepository.GetAll()/*.OrderBy(p => p.Name)*/);
+            return View(this.productrepository.GetAll());
         }
 
         // GET: Products/Details/5
@@ -47,21 +48,19 @@ namespace Store_Web.Controllers
         }
 
         // GET: Products/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductsViewModel view)
         {
             if (ModelState.IsValid)
             {
-                /*para gravar as imagens*/
+                
                 var path = string.Empty;
 
                 if(view.ImageFile != null && view.ImageFile.Length > 0)
@@ -88,9 +87,8 @@ namespace Store_Web.Controllers
 
                 var product = this.ToProduct(view, path);
 
-                //TODO:Change for The Logged User
 
-                product.User = await this.userHelper.GetUserByEmailAsync(" Xtare16.Soares@gmail.com");
+                product.User = await this.userHelper.GetUserByEmailAsync("tania.guerreiro.santos@formandos.cinel.pt");
 
                 await this.productrepository.CreateAsync(product);
 
@@ -116,7 +114,7 @@ namespace Store_Web.Controllers
             };
         }
 
-        // GET: Products/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -151,10 +149,9 @@ namespace Store_Web.Controllers
             };
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductsViewModel view)
         {
@@ -196,9 +193,9 @@ namespace Store_Web.Controllers
 
 
 
-                        //TODO:Change for The Logged User
+                        
 
-                        product.User = await this.userHelper.GetUserByEmailAsync(" Xtare16.Soares@gmail.com");
+                        product.User = await this.userHelper.GetUserByEmailAsync("tania.guerreiro.santos@formandos.cinel.pt");
                         await this.productrepository.UpdateAsync(product);
                     
                 }
@@ -218,7 +215,8 @@ namespace Store_Web.Controllers
             return View(view);
         }
 
-        // GET: Products/Delete/5
+        
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -236,7 +234,8 @@ namespace Store_Web.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
+        
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

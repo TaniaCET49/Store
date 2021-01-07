@@ -13,8 +13,8 @@ namespace Store_Web.Data
         private readonly IUserHelper userHelper;
 
 
-        /*gerador de 1ªs dados */
-        private Random random;
+        
+        private readonly Random random;
 
         public SeedDb(DataContext context,IUserHelper userHelper)
         {
@@ -23,23 +23,23 @@ namespace Store_Web.Data
             this.random = new Random();
         }
 
-        /* Processo de criação de dados na primeira vez que a base de dados é utilizada  */
+        
         public async Task SeedAsync()
         {
             await this.context.Database.EnsureCreatedAsync();
 
 
-            var user = await this.userHelper.GetUserByEmailAsync("Xtare16.soares@gmail.com");
+            var user = await this.userHelper.GetUserByEmailAsync("tania.guerreiro.santos@formandos.cinel.pt");
 
             if (user == null)
             {
 
                 user = new User
                 {
-                    FristName = " Tiago ",
-                    LastName = " Soares ",
-                    Email = "Xtare16.soares@gmail.com",
-                    UserName = "XtareS",
+                    FristName = " Tania ",
+                    LastName = " Santoss ",
+                    Email = "tania.guerreiro.santos@formandos.cinel.pt",
+                    UserName = "Tigs",
                     PhoneNumber = "*********"
                 };
 
@@ -59,14 +59,14 @@ namespace Store_Web.Data
             if (!this.context.Products.Any())
             {
                 this.AddProduct("Equipamento Oficial SLB", user);
-                this.AddProduct("Chuteiras Oficiais SLB", user);
+                this.AddProduct("Pantufas Oficiais SLB", user);
                 this.AddProduct("Águia Pequena Oficial SLB", user);
                 await this.context.SaveChangesAsync();
             }
 
         }
 
-        /* dados que serão colocados automaticamente na primeira vez que a base de dados é utilizada  */
+        
         private void AddProduct(string name, User user)
         {
             this.context.Products.Add(new Product

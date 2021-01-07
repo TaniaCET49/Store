@@ -9,7 +9,7 @@ namespace Store_Web
     {
         public static void Main(string[] args)
         {
-            /* desconstrução do inicio da interação com o  site e a base de dados para poderemos criar os dados random caso esteja a Db vazia por "norma é sempre o mesmo passo" */
+            
             var host = CreateWebHostBuilder(args).Build();
             RunSeeding(host);
             host.Run();
@@ -18,7 +18,7 @@ namespace Store_Web
 
         private static void RunSeeding(IWebHost host)
         {
-            /*função para criação dos dados */
+            
             var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
             {

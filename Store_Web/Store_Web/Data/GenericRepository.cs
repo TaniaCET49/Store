@@ -17,7 +17,7 @@ namespace Store_Web.Data
 
         public IQueryable<T> GetAll()
         {
-           return this.context.Set<T>().AsNoTracking().OrderBy(e=>e.Name); /* tabm pode ser aplicado no Controllador */
+           return this.context.Set<T>().AsNoTracking().OrderBy(e=>e.Name);
         }
 
 

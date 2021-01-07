@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Store_Web.Data.Enteties;
+using Store_Web.Models;
 using System.Threading.Tasks;
 
 namespace Store_Web.Helpers
@@ -12,5 +13,14 @@ namespace Store_Web.Helpers
 
 
         Task<IdentityResult> AddUserAsync(User user, string password);
+
+
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+
+        Task LogoutAsync();
+
+
+
     }
 }

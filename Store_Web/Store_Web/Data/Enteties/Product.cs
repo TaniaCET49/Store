@@ -51,7 +51,7 @@ namespace Store_Web.Data.Enteties
         public User User { get; set; }
 
 
-        /*API para as Imagens*/
+        
 
 
         public string ImageFullPath
