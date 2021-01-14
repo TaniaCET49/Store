@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Store_Web.Data;
-using Store_Web.Data.Enteties;
-using Store_Web.Helpers;
-using Store_Web.Models;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace Store_Web.Controllers
 {
-    
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Store_Web.Data;
+    using Store_Web.Data.Enteties;
+    using Store_Web.Helpers;
+    using Store_Web.Models;
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+
     public class ProductsController : Controller
     {
         private readonly IProductRepository productrepository;
@@ -49,7 +48,7 @@ namespace Store_Web.Controllers
         }
 
         // GET: Products/Create
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -60,14 +59,14 @@ namespace Store_Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductsViewModel view)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,ImageUrl,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductsViewModel view)
         {
             if (ModelState.IsValid)
             {
                 /*para gravar as imagens*/
                 var path = string.Empty;
 
-                if(view.ImageFile != null && view.ImageFile.Length > 0)
+                if (view.ImageFile != null && view.ImageFile.Length > 0)
                 {
 
                     var guid = Guid.NewGuid().ToString();
@@ -78,7 +77,7 @@ namespace Store_Web.Controllers
                         "wwwroot\\images\\Products",
                         file);
 
-                    using(var stream =new FileStream(path, FileMode.Create))
+                    using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await view.ImageFile.CopyToAsync(stream);
                     }
@@ -119,7 +118,7 @@ namespace Store_Web.Controllers
         }
 
         // GET: Products/Edit/5
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -158,15 +157,15 @@ namespace Store_Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductsViewModel view)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,ImageUrl,ImageFile,LastPurchase,LastSale,IsAvailable,Stock")] ProductsViewModel view)
         {
-            
+
             if (ModelState.IsValid)
             {
 
-               try
+                try
                 {
                     var path = view.ImageUrl;
 
@@ -200,11 +199,11 @@ namespace Store_Web.Controllers
 
 
 
-                      
 
-                        product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                        await this.productrepository.UpdateAsync(product);
-                    
+
+                    product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                    await this.productrepository.UpdateAsync(product);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -223,7 +222,7 @@ namespace Store_Web.Controllers
         }
 
         // GET: Products/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -242,14 +241,14 @@ namespace Store_Web.Controllers
         }
 
         // POST: Products/Delete/5
-       
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await this.productrepository.GetByIdAsync(id);
             await this.productrepository.DeleteAsync(product);
-           
+
             return RedirectToAction(nameof(Index));
         }
     }

@@ -24,6 +24,15 @@ namespace Store_Web.Helpers
 
 
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
+
+
+        Task CheckRoleAsync(string roleName);
+
+        
+        Task AddUsertoRoleAsync(User user, string roleName);
+
+        
+        Task<bool>  IsUserInRoleAsync(User user, string roleName);
     }
 
 

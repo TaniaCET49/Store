@@ -13,8 +13,8 @@ namespace Store_Web.Data
         private readonly IUserHelper userHelper;
 
 
-        
-        private readonly Random random;
+        /*gerador de 1ªs dados */
+        private Random random;
 
         public SeedDb(DataContext context,IUserHelper userHelper)
         {
@@ -23,11 +23,13 @@ namespace Store_Web.Data
             this.random = new Random();
         }
 
-        
+        /* Processo de criação de dados na primeira vez que a base de dados é utilizada  */
         public async Task SeedAsync()
         {
             await this.context.Database.EnsureCreatedAsync();
 
+            await this.userHelper.CheckRoleAsync("Admin");
+            await this.userHelper.CheckRoleAsync("Customer");
 
             var user = await this.userHelper.GetUserByEmailAsync("tania.guerreiro.santos@formandos.cinel.pt");
 
@@ -37,10 +39,10 @@ namespace Store_Web.Data
                 user = new User
                 {
                     FristName = " Tania ",
-                    LastName = " Santoss ",
+                    LastName = " Santos ",
                     Email = "tania.guerreiro.santos@formandos.cinel.pt",
                     UserName = "Tigs",
-                    PhoneNumber = "*********"
+                    PhoneNumber = "918035371"
                 };
 
                 var result = await this.userHelper.AddUserAsync(user, "123456");
@@ -50,23 +52,30 @@ namespace Store_Web.Data
                     throw new InvalidOperationException("Could Not Create the User in Seeder");
                 }
 
+                await this.userHelper.AddUsertoRoleAsync(user, "Admin");
+
             }
 
-
+            var isRole = await this.userHelper.IsUserInRoleAsync(user, "Admin");
+            
+            if (!isRole)
+            {
+                await this.userHelper.AddUsertoRoleAsync(user, "Admin");
+            }
 
 
 
             if (!this.context.Products.Any())
             {
                 this.AddProduct("Equipamento Oficial SLB", user);
-                this.AddProduct("Pantufas Oficiais SLB", user);
+                this.AddProduct("Chuteiras Oficiais SLB", user);
                 this.AddProduct("Águia Pequena Oficial SLB", user);
                 await this.context.SaveChangesAsync();
             }
 
         }
 
-        
+        /* dados que serão colocados automaticamente na primeira vez que a base de dados é utilizada  */
         private void AddProduct(string name, User user)
         {
             this.context.Products.Add(new Product
